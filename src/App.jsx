@@ -90,7 +90,7 @@ const LINE_SCENARIOS = [
 // ============ UTILITY ============
 const fmt = (n) => "¥" + n.toLocaleString();
 const sourceColor = (s) => ({ amazon: COLORS.amazonOrange, trabox: COLORS.traboxBlue, webkit: COLORS.webkitGreen, jl: COLORS.jlRed, direct: COLORS.purple }[s] || COLORS.text2);
-const sourceIcon = (s) => ({ amazon: "🟠", trabox: "🔵", webkit: "🟢", jl: "🔴", direct: "📦" }[s] || "");
+const sourceIcon = (s) => "";
 const statusLabel = (s) => ({ running: "運行中", idle: "空車", maintenance: "整備中" }[s]);
 const statusColor = (s) => ({ running: COLORS.green, idle: COLORS.red, maintenance: COLORS.orange }[s]);
 
@@ -105,10 +105,10 @@ function MiniBar({ value, max, color }) {
 
 function StatCard({ label, value, sub, color, icon }) {
   return (
-    <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: "18px 20px", flex: 1, minWidth: 150 }}>
-      <div style={{ fontSize: 11, color: COLORS.text3, marginBottom: 6, letterSpacing: "0.04em" }}>{icon} {label}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color: color || COLORS.text, letterSpacing: "-0.02em" }}>{value}</div>
-      {sub && <div style={{ fontSize: 11, color: COLORS.text2, marginTop: 4 }}>{sub}</div>}
+    <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: "20px 24px", flex: 1, minWidth: 150 }}>
+      <div style={{ fontSize: 11, color: COLORS.text3, marginBottom: 8, letterSpacing: "0.05em", textTransform: "uppercase", fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: 24, fontWeight: 600, color: color || COLORS.text, letterSpacing: "-0.03em", marginBottom: sub ? 4 : 0 }}>{value}</div>
+      {sub && <div style={{ fontSize: 11, color: COLORS.text2, marginTop: 6 }}>{sub}</div>}
     </div>
   );
 }
@@ -124,17 +124,17 @@ function Dashboard() {
     <div>
       {/* KPI Row */}
       <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-        <StatCard icon="💰" label="今月利益" value={fmt(total.profit)} sub={`売上 ${fmt(total.revenue)}`} color={COLORS.green} />
-        <StatCard icon="📦" label="成約件数" value={`${total.jobs}件`} sub="前月比 +8.2%" color={COLORS.blue} />
-        <StatCard icon="🚛" label="稼働率" value={`${Math.round((runningTrucks / TRUCKS.length) * 100)}%`} sub={`${runningTrucks}台運行 / ${idleTrucks}台空車`} color={runningTrucks > idleTrucks ? COLORS.green : COLORS.orange} />
-        <StatCard icon="📈" label="平均利益率" value={`${Math.round(total.profit / total.revenue * 100)}%`} sub="目標: 40%" color={COLORS.cyan} />
+        <StatCard label="今月利益" value={fmt(total.profit)} sub={`売上 ${fmt(total.revenue)}`} color={COLORS.green} />
+        <StatCard label="成約件数" value={`${total.jobs}件`} sub="前月比 +8.2%" color={COLORS.blue} />
+        <StatCard label="稼働率" value={`${Math.round((runningTrucks / TRUCKS.length) * 100)}%`} sub={`${runningTrucks}台運行 / ${idleTrucks}台空車`} color={runningTrucks > idleTrucks ? COLORS.green : COLORS.orange} />
+        <StatCard label="平均利益率" value={`${Math.round(total.profit / total.revenue * 100)}%`} sub="目標: 40%" color={COLORS.cyan} />
       </div>
 
       {/* Profit Chart + Site Breakdown */}
       <div style={{ display: "flex", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
         {/* Weekly Profit Chart */}
-        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: 20, flex: 2, minWidth: 280 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 16 }}>📈 週間利益推移</div>
+        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: 24, flex: 2, minWidth: 280 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 20, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>週間利益推移</div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120 }}>
             {WEEKLY_PROFIT.map((w, i) => (
               <div key={i} style={{ flex: 1, textAlign: "center" }}>
@@ -153,13 +153,13 @@ function Dashboard() {
         </div>
 
         {/* Site Breakdown */}
-        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: 20, flex: 3, minWidth: 300 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 14 }}>📊 サイト別実績</div>
+        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: 24, flex: 3, minWidth: 300 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 18, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>サイト別実績</div>
           {Object.entries(MONTHLY_DATA).map(([key, d]) => (
-            <div key={key} style={{ marginBottom: 12 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                <span style={{ color: sourceColor(key), fontWeight: 600 }}>
-                  {sourceIcon(key)} {{ amazon: "Amazon Relay", trabox: "トラボックス", webkit: "WebKIT", jl: "JLネット", direct: "直取引" }[key]}
+            <div key={key} style={{ marginBottom: 14 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6 }}>
+                <span style={{ color: COLORS.text, fontWeight: 500 }}>
+                  {{ amazon: "Amazon Relay", trabox: "トラボックス", webkit: "WebKIT", jl: "JLネット", direct: "直取引" }[key]}
                 </span>
                 <span style={{ color: COLORS.text2 }}>
                   {d.jobs}件 / {fmt(d.profit)} <span style={{ color: sourceColor(key), fontWeight: 700 }}>({d.rate}%)</span>
@@ -190,49 +190,51 @@ function DispatchBoard() {
   return (
     <div>
       {notification && (
-        <div style={{ background: "rgba(52,211,153,0.12)", border: `1px solid ${COLORS.green}`, borderRadius: 10, padding: "12px 16px", marginBottom: 16, fontSize: 13, color: COLORS.green, fontWeight: 600, animation: "fadeIn 0.3s" }}>
-          {notification}
+        <div style={{ background: "rgba(52,211,153,0.08)", border: `1px solid ${COLORS.green}`, borderRadius: 6, padding: "14px 18px", marginBottom: 16, fontSize: 13, color: COLORS.green, fontWeight: 500, animation: "fadeIn 0.3s" }}>
+          {notification.replace(/✅/g, "").trim()}
         </div>
       )}
 
       {/* Truck Grid */}
-      <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>🚛 車両一覧</div>
+      <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 16, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>車両一覧</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12, marginBottom: 24 }}>
         {TRUCKS.map((t) => (
           <div key={t.id} onClick={() => t.status === "idle" && !assignedJobs[t.id] && setSelectedTruck(t)}
             style={{
               background: selectedTruck?.id === t.id ? COLORS.surface3 : COLORS.surface,
               border: `1px solid ${selectedTruck?.id === t.id ? COLORS.blue : assignedJobs[t.id] ? COLORS.green : COLORS.border}`,
-              borderRadius: 12, padding: 16,
+              borderRadius: 8, padding: 18,
               cursor: t.status === "idle" && !assignedJobs[t.id] ? "pointer" : "default",
-              transition: "all 0.2s",
-              borderLeft: `4px solid ${assignedJobs[t.id] ? COLORS.green : statusColor(t.status)}`,
+              transition: "all 0.2s ease",
+              borderLeft: `3px solid ${assignedJobs[t.id] ? COLORS.green : statusColor(t.status)}`,
             }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>{t.id}号</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <div style={{ fontWeight: 600, fontSize: 15, letterSpacing: "-0.02em" }}>{t.id}号</div>
               <span style={{
-                fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 6,
-                background: `${statusColor(t.status)}20`, color: statusColor(t.status),
+                fontSize: 10, fontWeight: 500, padding: "4px 10px", borderRadius: 4,
+                background: `${statusColor(t.status)}15`, color: statusColor(t.status),
+                border: `1px solid ${statusColor(t.status)}30`,
+                letterSpacing: "0.03em",
               }}>
-                {assignedJobs[t.id] ? "✅ 配車済" : statusLabel(t.status)}
+                {assignedJobs[t.id] ? "配車済" : statusLabel(t.status)}
               </span>
             </div>
-            <div style={{ fontSize: 12, color: COLORS.text2, marginBottom: 4 }}>👤 {t.driver} / {t.type}バン</div>
+            <div style={{ fontSize: 12, color: COLORS.text2, marginBottom: 6 }}>{t.driver} / {t.type}バン</div>
             {t.status === "running" && (
               <>
-                <div style={{ fontSize: 12, color: COLORS.text2, marginBottom: 6 }}>📍 {t.from} → {t.to}（到着 {t.eta}）</div>
+                <div style={{ fontSize: 12, color: COLORS.text2, marginBottom: 8 }}>{t.from} → {t.to}（到着 {t.eta}）</div>
                 <MiniBar value={t.progress} max={100} color={COLORS.green} />
-                <div style={{ fontSize: 10, color: COLORS.text3, marginTop: 3, textAlign: "right" }}>{t.progress}%</div>
+                <div style={{ fontSize: 10, color: COLORS.text3, marginTop: 4, textAlign: "right" }}>{t.progress}%</div>
               </>
             )}
             {t.status === "idle" && !assignedJobs[t.id] && (
-              <div style={{ fontSize: 12, color: COLORS.red }}>📍 {t.location}（{t.idleSince}〜空車）</div>
+              <div style={{ fontSize: 12, color: COLORS.text2 }}>{t.location}（{t.idleSince}〜空車）</div>
             )}
             {t.status === "idle" && assignedJobs[t.id] && (
-              <div style={{ fontSize: 12, color: COLORS.green }}>📦 {assignedJobs[t.id].from}→{assignedJobs[t.id].to} {fmt(assignedJobs[t.id].fare)}</div>
+              <div style={{ fontSize: 12, color: COLORS.green }}>{assignedJobs[t.id].from}→{assignedJobs[t.id].to} {fmt(assignedJobs[t.id].fare)}</div>
             )}
             {t.status === "maintenance" && (
-              <div style={{ fontSize: 12, color: COLORS.orange }}>🔧 {t.note}</div>
+              <div style={{ fontSize: 12, color: COLORS.orange }}>{t.note}</div>
             )}
           </div>
         ))}
@@ -240,31 +242,31 @@ function DispatchBoard() {
 
       {/* Job Matching Panel */}
       {selectedTruck && (
-        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.blue}`, borderRadius: 14, padding: 20, marginBottom: 20 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4, color: COLORS.blue }}>
-            📦 {selectedTruck.id}号（{selectedTruck.driver}）への案件候補
+        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.blue}`, borderRadius: 8, padding: 24, marginBottom: 20 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, color: COLORS.text }}>
+            {selectedTruck.id}号（{selectedTruck.driver}）への案件候補
           </div>
-          <div style={{ fontSize: 11, color: COLORS.text3, marginBottom: 16 }}>
+          <div style={{ fontSize: 11, color: COLORS.text3, marginBottom: 18 }}>
             {selectedTruck.location} / {selectedTruck.type}バン — タップで配車
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {AVAILABLE_JOBS.filter(j => j.type === selectedTruck.type || selectedTruck.type === "10t").sort((a, b) => b.profit - a.profit).slice(0, 4).map((job) => (
               <div key={job.id} onClick={() => handleAssign(selectedTruck, job)}
                 style={{
-                  background: COLORS.surface2, border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: "14px 16px",
-                  cursor: "pointer", transition: "all 0.2s", display: "flex", justifyContent: "space-between", alignItems: "center",
+                  background: COLORS.surface2, border: `1px solid ${COLORS.border}`, borderRadius: 6, padding: "16px 18px",
+                  cursor: "pointer", transition: "all 0.2s ease", display: "flex", justifyContent: "space-between", alignItems: "center",
                   borderLeft: `3px solid ${sourceColor(job.source)}`,
                 }}
                 onMouseOver={(e) => { e.currentTarget.style.borderColor = sourceColor(job.source); e.currentTarget.style.background = COLORS.surface3; }}
                 onMouseOut={(e) => { e.currentTarget.style.borderColor = COLORS.border; e.currentTarget.style.background = COLORS.surface2; }}
               >
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
-                    <span style={{ color: sourceColor(job.source) }}>[{job.label}]</span> {job.from} → {job.to}
+                  <div style={{ fontSize: 12, fontWeight: 500, marginBottom: 5, color: COLORS.text }}>
+                    <span style={{ color: sourceColor(job.source), fontSize: 11, fontWeight: 600, letterSpacing: "0.02em" }}>{job.label}</span> {job.from} → {job.to}
                   </div>
                   <div style={{ fontSize: 11, color: COLORS.text3 }}>
                     {job.time} / {job.type}
-                    {job.auto && <span style={{ marginLeft: 8, fontSize: 10, background: `${COLORS.green}20`, color: COLORS.green, padding: "1px 6px", borderRadius: 4, fontWeight: 600 }}>⚡自動落札</span>}
+                    {job.auto && <span style={{ marginLeft: 8, fontSize: 9, background: `${COLORS.green}15`, color: COLORS.green, padding: "2px 8px", borderRadius: 3, fontWeight: 500, border: `1px solid ${COLORS.green}30` }}>自動落札</span>}
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
@@ -278,15 +280,15 @@ function DispatchBoard() {
       )}
 
       {/* Available Jobs */}
-      <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>📋 全案件一覧（{AVAILABLE_JOBS.length}件）</div>
-      <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, overflow: "hidden" }}>
+      <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 16, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>全案件一覧（{AVAILABLE_JOBS.length}件）</div>
+      <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, overflow: "hidden" }}>
         <div style={{ display: "grid", gridTemplateColumns: "80px 1fr 80px 90px 90px", padding: "10px 16px", background: COLORS.surface2, fontSize: 10, color: COLORS.text3, fontWeight: 600, letterSpacing: "0.04em" }}>
           <div>ソース</div><div>ルート</div><div>車種</div><div>運賃</div><div>利益予測</div>
         </div>
         {AVAILABLE_JOBS.sort((a, b) => b.profit - a.profit).map((j) => (
-          <div key={j.id} style={{ display: "grid", gridTemplateColumns: "80px 1fr 80px 90px 90px", padding: "12px 16px", borderBottom: `1px solid ${COLORS.border}`, fontSize: 12, alignItems: "center" }}>
-            <span style={{ color: sourceColor(j.source), fontWeight: 600, fontSize: 11 }}>{sourceIcon(j.source)} {j.label.replace("トラボックス", "トラボ")}</span>
-            <span style={{ color: COLORS.text }}>{j.from}→{j.to}{j.auto ? " ⚡" : ""}</span>
+          <div key={j.id} style={{ display: "grid", gridTemplateColumns: "80px 1fr 80px 90px 90px", padding: "14px 16px", borderBottom: `1px solid ${COLORS.border}`, fontSize: 12, alignItems: "center" }}>
+            <span style={{ color: sourceColor(j.source), fontWeight: 500, fontSize: 11 }}>{j.label.replace("トラボックス", "トラボ")}</span>
+            <span style={{ color: COLORS.text }}>{j.from}→{j.to}{j.auto ? " •" : ""}</span>
             <span style={{ color: COLORS.text2 }}>{j.type}</span>
             <span style={{ color: COLORS.text2 }}>{fmt(j.fare)}</span>
             <span style={{ color: COLORS.green, fontWeight: 700 }}>{fmt(j.profit)}</span>
@@ -329,31 +331,31 @@ function LineChat() {
     <div style={{ display: "flex", gap: 16, height: "calc(100vh - 200px)", minHeight: 500, flexWrap: "wrap" }}>
       {/* Scenario Selector */}
       <div style={{ width: 200, minWidth: 160, display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.text2, marginBottom: 4 }}>シナリオ選択</div>
+        <div style={{ fontSize: 11, fontWeight: 600, color: COLORS.text2, marginBottom: 8, letterSpacing: "0.05em", textTransform: "uppercase" }}>シナリオ選択</div>
         {LINE_SCENARIOS.map((s, i) => (
           <button key={i} onClick={() => setActiveScenario(i)}
             style={{
               background: i === activeScenario ? COLORS.surface3 : COLORS.surface,
               border: `1px solid ${i === activeScenario ? COLORS.lineGreen : COLORS.border}`,
-              borderRadius: 10, padding: "10px 14px", color: COLORS.text,
-              fontSize: 12, fontWeight: 600, cursor: "pointer", textAlign: "left",
-              transition: "all 0.2s",
+              borderRadius: 6, padding: "12px 16px", color: COLORS.text,
+              fontSize: 12, fontWeight: 500, cursor: "pointer", textAlign: "left",
+              transition: "all 0.2s ease", width: "100%",
             }}>
-            {s.name}
+            {s.name.replace(/[🌅📦💰🚛]/g, "").trim()}
           </button>
         ))}
-        <div style={{ marginTop: "auto", padding: 14, background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 10, fontSize: 11, color: COLORS.text3, lineHeight: 1.6 }}>
-          💡 各シナリオをクリックすると、LINE Botとのやり取りをリアルタイムで再現します
+        <div style={{ marginTop: "auto", padding: 16, background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 6, fontSize: 11, color: COLORS.text3, lineHeight: 1.6 }}>
+          各シナリオをクリックすると、LINE Botとのやり取りをリアルタイムで再現します
         </div>
       </div>
 
       {/* Chat Window */}
-      <div style={{ flex: 1, minWidth: 300, display: "flex", flexDirection: "column", background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 16, overflow: "hidden" }}>
+      <div style={{ flex: 1, minWidth: 300, display: "flex", flexDirection: "column", background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, overflow: "hidden" }}>
         {/* Header */}
-        <div style={{ background: COLORS.lineGreen, padding: "14px 20px", display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🚛</div>
+        <div style={{ background: COLORS.lineGreen, padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 6, background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 600, color: "#fff" }}>AI</div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 14, color: "#fff" }}>MAI配車AI</div>
+            <div style={{ fontWeight: 600, fontSize: 13, color: "#fff", letterSpacing: "-0.01em" }}>MAI配車AI</div>
             <div style={{ fontSize: 10, color: "rgba(255,255,255,0.7)" }}>空車自動配車管理システム</div>
           </div>
         </div>
@@ -371,7 +373,7 @@ function LineChat() {
               display: "flex", justifyContent: m.from === "user" ? "flex-end" : "flex-start",
               marginBottom: 10, animation: "slideUp 0.3s ease",
             }}>
-              {m.from === "bot" && <div style={{ width: 30, height: 30, borderRadius: 8, background: COLORS.lineGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, marginRight: 8, flexShrink: 0, marginTop: 2 }}>🤖</div>}
+              {m.from === "bot" && <div style={{ width: 28, height: 28, borderRadius: 6, background: COLORS.lineGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, color: "#fff", marginRight: 8, flexShrink: 0, marginTop: 2 }}>AI</div>}
               <div style={{
                 maxWidth: "80%", padding: "10px 14px", borderRadius: 14,
                 background: m.from === "user" ? COLORS.lineGreen : COLORS.surface,
@@ -387,7 +389,7 @@ function LineChat() {
           ))}
           {msgIndex < scenario.messages.length && (
             <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "8px 0" }}>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: COLORS.lineGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>🤖</div>
+              <div style={{ width: 28, height: 28, borderRadius: 6, background: COLORS.lineGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 600, color: "#fff" }}>AI</div>
               <div style={{ display: "flex", gap: 4 }}>
                 {[0, 1, 2].map((d) => (
                   <div key={d} style={{
@@ -401,11 +403,11 @@ function LineChat() {
         </div>
 
         {/* Input */}
-        <div style={{ padding: "12px 16px", borderTop: `1px solid ${COLORS.border}`, background: COLORS.surface, display: "flex", gap: 10, alignItems: "center" }}>
-          <div style={{ flex: 1, background: COLORS.surface2, border: `1px solid ${COLORS.border}`, borderRadius: 20, padding: "8px 16px", fontSize: 12, color: COLORS.text3 }}>
+        <div style={{ padding: "14px 16px", borderTop: `1px solid ${COLORS.border}`, background: COLORS.surface, display: "flex", gap: 10, alignItems: "center" }}>
+          <div style={{ flex: 1, background: COLORS.surface2, border: `1px solid ${COLORS.border}`, borderRadius: 6, padding: "10px 16px", fontSize: 12, color: COLORS.text3 }}>
             メッセージを入力（デモ）
           </div>
-          <div style={{ width: 36, height: 36, borderRadius: "50%", background: COLORS.lineGreen, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, cursor: "pointer" }}>▶</div>
+          <button style={{ width: 36, height: 36, borderRadius: 6, background: COLORS.lineGreen, border: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, cursor: "pointer", color: "#fff", fontWeight: 600, transition: "all 0.2s ease" }}>送信</button>
         </div>
       </div>
     </div>
@@ -438,22 +440,22 @@ function ProfitAnalysis() {
     <div>
       {/* Top KPIs */}
       <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-        <StatCard icon="💰" label="月間純利益" value={fmt(total)} sub={`売上 ${fmt(totalRev)}`} color={COLORS.green} />
-        <StatCard icon="📊" label="平均利益率" value={`${Math.round(total / totalRev * 100)}%`} sub="目標 40%" color={COLORS.cyan} />
-        <StatCard icon="🏆" label="最高利益ルート" value="福岡→名古屋" sub="平均利益 ¥31,000" color={COLORS.orange} />
-        <StatCard icon="⚡" label="最高効率ソース" value="Amazon Relay" sub="時間あたり ¥68,000" color={COLORS.amazonOrange} />
+        <StatCard label="月間純利益" value={fmt(total)} sub={`売上 ${fmt(totalRev)}`} color={COLORS.green} />
+        <StatCard label="平均利益率" value={`${Math.round(total / totalRev * 100)}%`} sub="目標 40%" color={COLORS.cyan} />
+        <StatCard label="最高利益ルート" value="福岡→名古屋" sub="平均利益 ¥31,000" color={COLORS.orange} />
+        <StatCard label="最高効率ソース" value="Amazon Relay" sub="時間あたり ¥68,000" color={COLORS.amazonOrange} />
       </div>
 
       <div style={{ display: "flex", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
         {/* Revenue Bar Chart */}
-        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: 20, flex: 1, minWidth: 320 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 16 }}>💰 サイト別 売上 vs 利益</div>
+        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: 24, flex: 1, minWidth: 320 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 18, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>サイト別 売上 vs 利益</div>
           {entries.map(([key, d]) => {
             const name = { amazon: "Amazon", trabox: "トラボ", webkit: "WebKIT", jl: "JLネット", direct: "直取引" }[key];
             return (
               <div key={key} style={{ marginBottom: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, marginBottom: 4 }}>
-                  <span style={{ color: sourceColor(key), fontWeight: 700 }}>{sourceIcon(key)} {name}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, marginBottom: 6 }}>
+                  <span style={{ color: COLORS.text, fontWeight: 500 }}>{name}</span>
                   <span style={{ color: COLORS.text2 }}>{fmt(d.revenue)} / <span style={{ color: COLORS.green }}>{fmt(d.profit)}</span></span>
                 </div>
                 <div style={{ display: "flex", gap: 3, height: 16 }}>
@@ -468,8 +470,8 @@ function ProfitAnalysis() {
         </div>
 
         {/* Route Analysis */}
-        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: 20, flex: 1, minWidth: 300 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 14 }}>🗺️ ルート別利益ランキング</div>
+        <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: 24, flex: 1, minWidth: 300 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 16, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>ルート別利益ランキング</div>
           {routes.sort((a, b) => b.avgProfit - a.avgProfit).map((r, i) => (
             <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: i < routes.length - 1 ? `1px solid ${COLORS.border}` : "none" }}>
               <div>
@@ -489,8 +491,8 @@ function ProfitAnalysis() {
       </div>
 
       {/* Truck Performance */}
-      <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 14, padding: 20 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 14 }}>🚛 車両別パフォーマンス</div>
+      <div style={{ background: COLORS.surface, border: `1px solid ${COLORS.border}`, borderRadius: 8, padding: 24 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 18, color: COLORS.text2, letterSpacing: "0.05em", textTransform: "uppercase" }}>車両別パフォーマンス</div>
         <div style={{ overflowX: "auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "100px 100px 70px 90px 100px 1fr", padding: "10px 16px", background: COLORS.surface2, borderRadius: 8, fontSize: 10, color: COLORS.text3, fontWeight: 600, gap: 8, minWidth: 600, letterSpacing: "0.04em" }}>
             <div>車両</div><div>ドライバー</div><div>稼働率</div><div>月間件数</div><div>月間利益</div><div>稼働率バー</div>
@@ -543,38 +545,39 @@ export default function App() {
       `}</style>
 
       {/* Header */}
-      <div style={{ padding: "16px 24px", borderBottom: `1px solid ${COLORS.border}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, background: `linear-gradient(180deg, ${COLORS.surface} 0%, ${COLORS.bg} 100%)` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 38, height: 38, borderRadius: 10, background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.cyan})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 900, color: "#fff" }}>M</div>
+      <div style={{ padding: "18px 24px", borderBottom: `1px solid ${COLORS.border}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, background: `linear-gradient(180deg, ${COLORS.surface} 0%, ${COLORS.bg} 100%)` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ width: 36, height: 36, borderRadius: 6, background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.cyan})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>M</div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: "-0.02em" }}>MAI 配車AI管理システム</div>
-            <div style={{ fontSize: 10, color: COLORS.text3 }}>合同会社MAIパートナーズ — デモ版</div>
+            <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em" }}>MAI 配車AI管理システム</div>
+            <div style={{ fontSize: 10, color: COLORS.text3, marginTop: 2 }}>合同会社MAIパートナーズ — デモ版</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: COLORS.green, animation: "pulse 2s infinite" }} />
-            <span style={{ fontSize: 11, color: COLORS.green, fontWeight: 600 }}>AIアクティブ</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.green, animation: "pulse 2s infinite" }} />
+            <span style={{ fontSize: 11, color: COLORS.green, fontWeight: 500, letterSpacing: "0.02em" }}>AIアクティブ</span>
           </div>
-          <div style={{ fontSize: 12, color: COLORS.text2, fontFamily: "'JetBrains Mono', monospace" }}>
+          <div style={{ fontSize: 12, color: COLORS.text2, fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>
             {time.toLocaleTimeString("ja-JP")}
           </div>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div style={{ display: "flex", gap: 4, padding: "12px 24px", overflowX: "auto", borderBottom: `1px solid ${COLORS.border}` }}>
+      <div style={{ display: "flex", gap: 2, padding: "12px 24px", overflowX: "auto", borderBottom: `1px solid ${COLORS.border}` }}>
         {tabs.map((t) => (
           <button key={t.id} onClick={() => setTab(t.id)}
             style={{
-              padding: "8px 18px", borderRadius: 10, fontSize: 12.5, fontWeight: 600,
+              padding: "10px 20px", borderRadius: 6, fontSize: 12, fontWeight: 500,
               border: "none", cursor: "pointer", whiteSpace: "nowrap",
               background: tab === t.id ? COLORS.surface3 : "transparent",
               color: tab === t.id ? COLORS.text : COLORS.text2,
-              transition: "all 0.2s",
-              outline: tab === t.id ? `1px solid ${COLORS.borderLight}` : "1px solid transparent",
+              transition: "all 0.2s ease",
+              borderBottom: tab === t.id ? `2px solid ${COLORS.blue}` : "2px solid transparent",
+              letterSpacing: "0.01em",
             }}>
-            {t.label}
+            {t.label.replace(/[📊🚛💬💰]/g, "").trim()}
           </button>
         ))}
       </div>
