@@ -550,7 +550,7 @@ export default function App() {
           <div style={{ width: 36, height: 36, borderRadius: 6, background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.cyan})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>M</div>
           <div>
             <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em" }}>MAI 配車AI管理システム</div>
-            <div style={{ fontSize: 10, color: COLORS.text3, marginTop: 2 }}>合同会社MAIパートナーズ — デモ版</div>
+            <div style={{ fontSize: 10, color: COLORS.text3, marginTop: 2 }}>株式会社運送専門デモ</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
